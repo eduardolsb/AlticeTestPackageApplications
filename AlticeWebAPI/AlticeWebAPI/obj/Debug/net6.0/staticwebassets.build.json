@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "4en1lApQCQFwPwIZ5bp5HuGdjU9Kyox/B1z6SgnaKpE=",
+  "Source": "AlticeWebAPI",
+  "BasePath": "_content/AlticeWebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
