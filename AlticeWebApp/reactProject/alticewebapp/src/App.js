@@ -1,11 +1,13 @@
 import logo from './logo.svg';
+import meologo from './Assets/logo.png';
+import bg from './Assets/bg.webp';
 import './App.css';
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
-import { useEffect, useState } from 'react';
+
 
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
   const baseURL = "https://localhost:7160/api/MEO/Formulario";
 
   const [data, setData] = useState([]);
+
+  const falseValue = false;
 
   const [formularioSelecionado, setFormularioSelecionado] = useState({
     id: '',
@@ -85,11 +89,14 @@ function App() {
     .then(response => {
         let d = response.data;
         let dados = data;
+        console.log(formularioSelecionado);
+        console.log(response.data);
+        console.log(data);
         dados.map(a=>{
           if(a.id===formularioSelecionado.id){
-              a.name = d.name;
-              a.email = d.email;
-              a.telefone = d.telefone;
+              a.name = formularioSelecionado.name;
+              a.email = formularioSelecionado.email;
+              a.telefone = formularioSelecionado.telefone;
           }
         });
         toogleModalEditar();
@@ -103,7 +110,10 @@ function App() {
     await axios
     .delete(baseURL + "/" + formularioSelecionado.id)
     .then(response => {
-        setData(data.filter(a=> a.id !== response.data));
+        console.log(formularioSelecionado);
+        console.log(response.data);
+        console.log(data);
+        setData(data.filter(a=> a.id !== formularioSelecionado.id));
         toogleModalExcluir();
     })
     .catch(error=> {
@@ -118,8 +128,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>MEO</h1>
+        <img src={meologo} className="App-logo" alt="logo" />
+        
         <h3>Quer saber sobre novidades?</h3>
         <button className="btn btn-sm btn-danger" onClick={()=>toogleModalIncluir()}>Quero receber novidades em nossa newsletter</button>
         <div className="space"></div>
@@ -150,7 +160,7 @@ function App() {
         <div className="nova-cor-texto">
 
 
-        <Modal isOpen={modalIncluir}>
+        <Modal isOpen={modalIncluir} animation={falseValue.toString()}>
           <ModalHeader>Incluir ao Formulário</ModalHeader>
           <ModalBody>
             <div className="form-group">
@@ -172,7 +182,7 @@ function App() {
         </Modal>
 
 
-        <Modal isOpen={modalEditar}>
+        <Modal isOpen={modalEditar}  animation={falseValue.toString()}>
           <ModalHeader>Editar registro</ModalHeader>
           <ModalBody>
             <div className="form-group">
@@ -200,10 +210,10 @@ function App() {
           </ModalFooter>
         </Modal>
 
-        <Modal isOpen={modalExcluir}>
-          <ModalBody>
+        <Modal isOpen={modalExcluir}  animation={falseValue.toString()}>
+          <ModalHeader>
             Deseja retirar o nome {formularioSelecionado && formularioSelecionado.name} da lista?
-          </ModalBody>
+          </ModalHeader>
           <ModalFooter>
             <button className="btn btn-sm btn-danger"onClick={()=>pedidoDelete()}>Sim</button> {" "}
             <button className="btn btn-sm btn-secondary" onClick={()=>toogleModalExcluir()}>Não</button>
